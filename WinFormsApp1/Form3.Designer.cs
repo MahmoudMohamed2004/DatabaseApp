@@ -34,15 +34,17 @@
             button1 = new Button();
             rentPanel = new Panel();
             button2 = new Button();
+            label2 = new Label();
+            comboBox1 = new ComboBox();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Location = new Point(227, 12);
+            panel1.Location = new Point(227, 63);
             panel1.Name = "panel1";
-            panel1.Size = new Size(791, 431);
+            panel1.Size = new Size(791, 380);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
@@ -52,7 +54,7 @@
             refreshDashBoardButton.Name = "refreshDashBoardButton";
             refreshDashBoardButton.Size = new Size(195, 35);
             refreshDashBoardButton.TabIndex = 1;
-            refreshDashBoardButton.Text = "Refresh Dashboard";
+            refreshDashBoardButton.Text = "Refresh All";
             refreshDashBoardButton.UseVisualStyleBackColor = true;
             refreshDashBoardButton.Click += refreshDashBoardButton_Click;
             // 
@@ -95,11 +97,33 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 12F);
+            label2.Location = new Point(620, 22);
+            label2.Name = "label2";
+            label2.Size = new Size(52, 21);
+            label2.TabIndex = 6;
+            label2.Text = "Genre";
+            label2.Click += label2_Click_1;
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(678, 20);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(121, 23);
+            comboBox1.TabIndex = 7;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
             // memberDashboardForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1030, 635);
+            Controls.Add(comboBox1);
+            Controls.Add(label2);
             Controls.Add(button2);
             Controls.Add(rentPanel);
             Controls.Add(button1);
@@ -123,5 +147,7 @@
         private Button button1;
         private Panel rentPanel;
         private Button button2;
+        private Label label2;
+        private ComboBox comboBox1;
     }
 }

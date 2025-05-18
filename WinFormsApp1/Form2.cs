@@ -9,6 +9,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Movie_Rental_Management_App;
 
 namespace WinFormsApp1
 {
@@ -16,11 +17,15 @@ namespace WinFormsApp1
     {
         SignupForm signupForm;
         memberDashboardForm memberDashboard;
+        admin_accept adminDashboard;
+        Insert_Tape supplierDashboard;
         public LoginForm(SignupForm signupForm)
         {
             InitializeComponent();
             clearInputs();
             this.signupForm = signupForm;
+            adminDashboard = new admin_accept(this);
+            supplierDashboard = new Insert_Tape(this);
 
         }
 
@@ -93,8 +98,16 @@ namespace WinFormsApp1
                     memberDashboard = new memberDashboardForm(this, userId);
                     memberDashboard.Show();
 
+                } else if(selectedRole == "Admin")
+                {
+                    this.Hide();
+                    adminDashboard.Show();
+                } else if( selectedRole == "Supplier")
+                {
+                    this.Hide();
+                    supplierDashboard.Show();
                 }
-                return;
+                    return;
             }
 
             MessageBox.Show("Incorrect username or password!", "Login failed!", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -119,7 +132,9 @@ namespace WinFormsApp1
                     availability_status = reader.GetString(3),
                     admin_id = reader.GetInt32(4),
                     supplier_id = reader.GetInt32(5),
-                    added_date = reader.GetDateTime(6)
+                    added_date = reader.GetDateTime(6),
+                    genre_id = reader.GetInt32(7),
+
                 };
                 tape.updateTexts();
                 tapes.Add(tape);
@@ -142,19 +157,47 @@ namespace WinFormsApp1
                 var tape = new MovieTape()
                 {
                     id = reader.GetInt32(0),
+                    
                     title = reader.GetString(1),
                     rental_price = reader.GetDecimal(2),
                     availability_status = reader.GetString(3),
                     admin_id = reader.GetInt32(4),
                     supplier_id = reader.GetInt32(5),
-                    added_date = reader.GetDateTime(6)
+                    added_date = reader.GetDateTime(6),
+                    genre_id = reader.GetInt32(7),
+                    
                 };
+                
                 tape.updateTexts();
                 tapes.Add(tape);
 
             }
             con.Close();
             return tapes;
+        }
+
+        public List<string> GetGenres()
+        {
+            List<string> genres = new List<string>();
+
+            string connectionString = "Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True";
+
+            string query = "SELECT name FROM Genre";
+
+            SqlConnection con = new SqlConnection(connectionString);
+            con.Open();
+            SqlCommand myCommand = new SqlCommand(query,con);
+
+            SqlDataReader reader = myCommand.ExecuteReader();
+            while (reader.Read()) {
+
+                genres.Add(reader["name"].ToString());
+
+            }
+            reader.Close();
+            con.Close();
+
+            return genres;
         }
 
         private void clearInputs()

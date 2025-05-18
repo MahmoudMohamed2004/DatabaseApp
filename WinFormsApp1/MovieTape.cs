@@ -14,13 +14,14 @@ namespace WinFormsApp1
 {
     public partial class MovieTape : UserControl
     {
-        string userId;
+        public string userId;
         public int id;
         public string title;
         public decimal rental_price;
         public string availability_status;
         public int admin_id;
         public int supplier_id;
+        public int genre_id;
         public DateTime added_date;
         memberDashboardForm memberDashboard;
         public MovieTape()
@@ -38,13 +39,23 @@ namespace WinFormsApp1
 
         public void updateTexts()
         {
-            this.label1.Text = id.ToString();
-            this.label2.Text = title.ToString();
-            this.label3.Text = rental_price.ToString();
-            this.label4.Text = availability_status.ToString();
-            this.label5.Text = admin_id.ToString();
-            this.label6.Text = supplier_id.ToString();
-            this.label7.Text = added_date.ToString();
+            this.tapeId.Text = id.ToString();
+            this.tapeTitle.Text = title.ToString();
+            this.tapeRentalPrice.Text = rental_price.ToString();
+            string genre = GetGenreNameById(genre_id);
+            this.tapeGenre.Text = genre;
+            this.tapeStatus.Text = availability_status.ToString();
+            if(availability_status == "Rented")
+            {
+                this.tapeStatus.ForeColor = Color.Red;
+            } else
+            {
+                this.tapeStatus.ForeColor= Color.Green;
+            }
+            this.tapeId.Text = id.ToString();
+            this.tapeSupplier.Text = supplier_id.ToString();
+            this.tapeReleaseDate.Text = added_date.ToString();
+               
         }
 
         private void MovieTape_Load(object sender, EventArgs e)
@@ -59,6 +70,21 @@ namespace WinFormsApp1
 
         private void label4_Click(object sender, EventArgs e)
         {
+
+        }
+        public string GetGenreNameById(int genreId)
+        {
+
+            string connectionString = "Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True";
+
+            string query = "SELECT name FROM Genre WHERE genre_id = " + genreId.ToString();
+
+            SqlConnection con = new SqlConnection(connectionString);
+            con.Open();
+            SqlCommand myCommand = new SqlCommand(query, con);
+            object result = myCommand.ExecuteScalar();
+            con.Close();
+            return result.ToString();
 
         }
 
@@ -98,23 +124,31 @@ namespace WinFormsApp1
             if (button1.Text == "Return Tape")
             {
                 string query1 = "update MovieTape set availability_status = 'Available' where tape_id = " + id;
+                string query2 = "delete from Rental where member_id = " + userId + " AND tape_id = " + id.ToString() + ";";
                 SqlConnection con1 = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True");
                 con1.Open();
                 SqlCommand myCommand1 = new SqlCommand(query1, con1);
+                SqlCommand myCommand2 = new SqlCommand(query2, con1);
                 myCommand1.ExecuteNonQuery();
+                myCommand2.ExecuteNonQuery();
                 con1.Close();
                 memberDashboard.refreshRentDashboard();
-                memberDashboard.refreshDashboard();
+                memberDashboard.updateDashboardByGenre();
                 return;
 
             }
-            else if (label4.Text == "Rented")
+
+            else if (tapeStatus.Text == "Rented")
+
             {
+
                 MessageBox.Show("Tape is already rented!", "Transaction Failed!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
+
             }
             else
             {
+
                 string query = "UPDATE MovieTape SET availability_status = 'Rented' WHERE tape_id = " + id;
                 string query2 = "insert into Rental values(" + userId + ", " + id.ToString() + ", '2023-05-16', '2023-05-15', " + rental_price.ToString() + ")";
                 SqlConnection con = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True");
@@ -125,7 +159,7 @@ namespace WinFormsApp1
                 myCommand.ExecuteNonQuery();
                 con.Close();
                 memberDashboard.refreshRentDashboard();
-                memberDashboard.refreshDashboard();
+                memberDashboard.updateDashboardByGenre();
             }
               
 
