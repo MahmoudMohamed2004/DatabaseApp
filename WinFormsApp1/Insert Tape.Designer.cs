@@ -169,6 +169,7 @@
             Name = "Insert_Tape";
             Text = "Insert_Tape";
             FormClosing += Insert_Tape_FormClosing;
+            Load += Insert_Tape_Load;
             ResumeLayout(false);
             PerformLayout();
         }

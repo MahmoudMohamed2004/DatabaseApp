@@ -64,21 +64,21 @@ namespace WinFormsApp1
 
             if (selectedRole == "Admin")
             {
-                query = "SELECT admin_id FROM Admin WHERE name = @username AND password = @password";
+                query = "SELECT id FROM Admin WHERE name = @username AND password = @password";
 
             }
             else if (selectedRole == "Member")
             {
 
-                query = "SELECT member_id FROM Member WHERE name = @username AND password = @password";
+                query = "SELECT id FROM Member WHERE name = @username AND password = @password";
             }
             else
             {
-                query = "SELECT supplier_id FROM Supplier WHERE name = @username AND password = @password";
+                query = "SELECT id FROM Supplier WHERE name = @username AND password = @password";
             }
             ;
 
-            SqlConnection con = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True");
+            SqlConnection con = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=Movie Rental Management System;Integrated Security=True");
             con.Open();
 
             SqlCommand myCommand = new SqlCommand(query, con);
@@ -117,8 +117,8 @@ namespace WinFormsApp1
         public List<MovieTape> getAllMovieTapes()
         {
             var tapes = new List<MovieTape>();
-            string query = "select * from MovieTape";
-            SqlConnection con = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True");
+            string query = "SELECT * FROM MovieTape WHERE availability_status IN ('Available', 'Rented')";
+            SqlConnection con = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=Movie Rental Management System;Integrated Security=True");
             con.Open();
             SqlCommand myCommand = new SqlCommand(query, con);
             SqlDataReader reader = myCommand.ExecuteReader();
@@ -129,11 +129,10 @@ namespace WinFormsApp1
                     id = reader.GetInt32(0),
                     title = reader.GetString(1),
                     rental_price = reader.GetDecimal(2),
-                    availability_status = reader.GetString(3),
-                    admin_id = reader.GetInt32(4),
-                    supplier_id = reader.GetInt32(5),
-                    added_date = reader.GetDateTime(6),
-                    genre_id = reader.GetInt32(7),
+                    supplier_id = reader.GetInt32(3),
+                    genre_id = reader.GetInt32(4),
+                    added_date = reader.GetDateTime(5),
+                    availability_status = reader.GetString(6),
 
                 };
                 tape.updateTexts();
@@ -147,8 +146,8 @@ namespace WinFormsApp1
         public List<MovieTape> getRentedMovieTapesByUser(string userID)
         {
             var tapes = new List<MovieTape>();
-            string query = "select DISTINCT  m.* from MovieTape m INNER JOIN Rental r ON r.member_id = " + userID + " AND m.tape_id = r.tape_id;";
-            SqlConnection con = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True");
+            string query = "select DISTINCT  m.* from MovieTape m INNER JOIN Rental r ON r.member_id = " + userID + " AND m.id = r.tape_id;";
+            SqlConnection con = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=Movie Rental Management System;Integrated Security=True");
             con.Open();
             SqlCommand myCommand = new SqlCommand(query, con);
             SqlDataReader reader = myCommand.ExecuteReader();
@@ -157,15 +156,13 @@ namespace WinFormsApp1
                 var tape = new MovieTape()
                 {
                     id = reader.GetInt32(0),
-                    
                     title = reader.GetString(1),
                     rental_price = reader.GetDecimal(2),
-                    availability_status = reader.GetString(3),
-                    admin_id = reader.GetInt32(4),
-                    supplier_id = reader.GetInt32(5),
-                    added_date = reader.GetDateTime(6),
-                    genre_id = reader.GetInt32(7),
-                    
+                    supplier_id = reader.GetInt32(3),
+                    genre_id = reader.GetInt32(4),
+                    added_date = reader.GetDateTime(5),
+                    availability_status = reader.GetString(6),
+
                 };
                 
                 tape.updateTexts();
@@ -180,7 +177,7 @@ namespace WinFormsApp1
         {
             List<string> genres = new List<string>();
 
-            string connectionString = "Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True";
+            string connectionString = "Data Source=MR_QUALITY;Initial Catalog=Movie Rental Management System;Integrated Security=True";
 
             string query = "SELECT name FROM Genre";
 

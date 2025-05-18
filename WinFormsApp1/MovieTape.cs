@@ -75,9 +75,9 @@ namespace WinFormsApp1
         public string GetGenreNameById(int genreId)
         {
 
-            string connectionString = "Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True";
+            string connectionString = "Data Source=MR_QUALITY;Initial Catalog=Movie Rental Management System;Integrated Security=True";
 
-            string query = "SELECT name FROM Genre WHERE genre_id = " + genreId.ToString();
+            string query = "SELECT name FROM Genre WHERE id = " + genreId.ToString();
 
             SqlConnection con = new SqlConnection(connectionString);
             con.Open();
@@ -123,9 +123,9 @@ namespace WinFormsApp1
         {
             if (button1.Text == "Return Tape")
             {
-                string query1 = "update MovieTape set availability_status = 'Available' where tape_id = " + id;
+                string query1 = "update MovieTape set availability_status = 'Available' where id = " + id;
                 string query2 = "delete from Rental where member_id = " + userId + " AND tape_id = " + id.ToString() + ";";
-                SqlConnection con1 = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True");
+                SqlConnection con1 = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=Movie Rental Management System;Integrated Security=True");
                 con1.Open();
                 SqlCommand myCommand1 = new SqlCommand(query1, con1);
                 SqlCommand myCommand2 = new SqlCommand(query2, con1);
@@ -149,9 +149,9 @@ namespace WinFormsApp1
             else
             {
 
-                string query = "UPDATE MovieTape SET availability_status = 'Rented' WHERE tape_id = " + id;
-                string query2 = "insert into Rental values(" + userId + ", " + id.ToString() + ", '2023-05-16', '2023-05-15', " + rental_price.ToString() + ")";
-                SqlConnection con = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True");
+                string query = "UPDATE MovieTape SET availability_status = 'Rented' WHERE id = " + id;
+                string query2 = "insert into Rental values(" + id.ToString() + ", " + userId + ", '2023-05-16', '2023-05-15')";
+                SqlConnection con = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=Movie Rental Management System;Integrated Security=True");
                 con.Open();
                 SqlCommand myCommand = new SqlCommand(query, con);
                 myCommand.ExecuteNonQuery();

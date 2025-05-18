@@ -58,7 +58,7 @@ namespace Movie_Rental_Management_App
 
                         myCommand.Parameters.AddWithValue("@date_added", dateTimePicker1.Value);
 
-                        myCommand.Parameters.AddWithValue("@availability_status", "Available");
+                        myCommand.Parameters.AddWithValue("@availability_status", "InQueue");
                         myCommand.Parameters.AddWithValue("@is_accepted", 0);
 
                         myCommand.ExecuteNonQuery();
@@ -86,6 +86,11 @@ namespace Movie_Rental_Management_App
         private void Insert_Tape_FormClosing(object sender, FormClosingEventArgs e)
         {
             loginForm.Close();
+        }
+
+        private void Insert_Tape_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

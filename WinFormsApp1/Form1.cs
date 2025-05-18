@@ -155,10 +155,10 @@ namespace WinFormsApp1
 
             string selectedRole = comboBox1.SelectedItem.ToString();
 
-            SqlConnection con = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True");
+            SqlConnection con = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=Movie Rental Management System;Integrated Security=True");
             con.Open();
 
-            SqlCommand myCommand = new SqlCommand("insert into " + selectedRole + "(name, email, password) values('" + userName + "', '" + emailAddress + "','" + password + "');", con);
+            SqlCommand myCommand = new SqlCommand("insert into " + selectedRole + "(name, password) values('" + userName + "','" + password + "');", con);
             myCommand.ExecuteNonQuery();
             con.Close();
 
@@ -205,10 +205,10 @@ namespace WinFormsApp1
                 return;
             }
 
-            SqlConnection con = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True");
+            SqlConnection con = new SqlConnection(@"Data Source=MR_QUALITY;Initial Catalog=Movie Rental Management System;Integrated Security=True");
             con.Open();
 
-            SqlCommand myCommand = new SqlCommand("insert into Member(name, email, password, phone, residence_address, business_address, credit_card_number, billing_address) values('" + userName + "', '" + emailAddress + "','" + password + "','" + phoneNumber + "','" + residenceAddress + "','" + businessAddress + "','" + creditCard+ "','" + billingAddress+ "');", con);
+            SqlCommand myCommand = new SqlCommand("insert into Member(name, email_address, password, phone_number, residence_address, business_address, credit_card, billing_address) values('" + userName + "', '" + emailAddress + "','" + password + "','" + phoneNumber + "','" + residenceAddress + "','" + businessAddress + "','" + creditCard+ "','" + billingAddress+ "');", con);
             myCommand.ExecuteNonQuery();
             con.Close();
 

@@ -120,9 +120,9 @@ namespace WinFormsApp1
         public string GetGenreNameById(int genreId)
         {
 
-            string connectionString = "Data Source=MR_QUALITY;Initial Catalog=System;Integrated Security=True";
+            string connectionString = "Data Source=MR_QUALITY;Initial Catalog=Movie Rental Management System;Integrated Security=True";
 
-            string query = "SELECT name FROM Genre WHERE genre_id = " + genreId.ToString();
+            string query = "SELECT name FROM Genre WHERE id = " + genreId.ToString();
 
             SqlConnection con = new SqlConnection(connectionString);
             con.Open();

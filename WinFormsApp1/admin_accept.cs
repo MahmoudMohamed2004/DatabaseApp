@@ -24,7 +24,7 @@ namespace Movie_Rental_Management_App
         [Obsolete]
         private void button1_Click(object sender, EventArgs e)
         {
-            string serverName = "DESKTOP-6AHV27R";
+            string serverName = "MR_QUALITY";
             string databaseName = "Movie Rental Management System";
             string connectionString = $"Server={serverName};Database={databaseName};Integrated Security=True;";
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -50,7 +50,7 @@ namespace Movie_Rental_Management_App
         private void button2_Click(object sender, EventArgs e)
         {
 
-            string serverName = "DESKTOP-6AHV27R";
+            string serverName = "MR_QUALITY";
             string databaseName = "Movie Rental Management System";
             string connectionString = $"Server={serverName};Database={databaseName};Integrated Security=True;";
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -65,12 +65,23 @@ namespace Movie_Rental_Management_App
                     bool isCompleted = Convert.ToBoolean(row.Cells["is_accepted"].Value);
 
                     string query = "UPDATE MovieTape SET is_accepted = @is_accepted WHERE id = @id";
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
+
+                    if (isCompleted)
                     {
-                        cmd.Parameters.AddWithValue("@is_accepted", isCompleted);
-                        cmd.Parameters.AddWithValue("@id", id);
-                        cmd.ExecuteNonQuery();
+                        string query2;
+                        query2 = "UPDATE MovieTape SET availability_status = 'Available'";
+                        SqlCommand cmd2  = new SqlCommand(query2, conn);
+                        cmd2.ExecuteNonQuery();
+
                     }
+
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@is_accepted", isCompleted);
+                            cmd.Parameters.AddWithValue("@id", id);
+                            cmd.ExecuteNonQuery();
+                        }
                 }
 
                 MessageBox.Show("Changes saved!");
@@ -85,7 +96,7 @@ namespace Movie_Rental_Management_App
         [Obsolete]
         private void LoadReportToGrid(string query)
         {
-            string serverName = "DESKTOP-6AHV27R";
+            string serverName = "MR_QUALITY";
             string databaseName = "Movie Rental Management System";
             string connectionString = $"Server={serverName};Database={databaseName};Integrated Security=True;";
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -180,7 +191,7 @@ namespace Movie_Rental_Management_App
         [Obsolete]
         private void button4_Click(object sender, EventArgs e)
         {
-            string serverName = "DESKTOP-6AHV27R";
+            string serverName = "MR_QUALITY";
             string databaseName = "Movie Rental Management System";
             string connectionString = $"Server={serverName};Database={databaseName};Integrated Security=True;";
 
@@ -216,7 +227,7 @@ namespace Movie_Rental_Management_App
                 return;
             }
 
-            string serverName = "DESKTOP-6AHV27R";
+            string serverName = "MR_QUALITY";
             string databaseName = "Movie Rental Management System";
             string connectionString = $"Server={serverName};Database={databaseName};Integrated Security=True;";
 
